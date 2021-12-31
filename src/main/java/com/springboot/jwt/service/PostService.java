@@ -1,6 +1,8 @@
 package com.springboot.jwt.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 import com.springboot.jwt.entity.PostEntity;
 import com.springboot.jwt.entity.UserEntity;
@@ -34,5 +36,14 @@ public class PostService {
         postEntity.setPostBody(postBody);
         postRepository.save(postEntity);
         log.info("Successfully added the post : {}", postEntity.getPostTitle());
+    }
+
+    public PostEntity showPostById(Long postId) {
+        Optional<PostEntity> postEntity = postRepository.findById(postId);
+        return postEntity.orElse(null);
+    }
+
+    public List<PostEntity> showAllPosts() {
+        return postRepository.findAll();
     }
 }
