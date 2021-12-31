@@ -4,6 +4,9 @@ import com.springboot.jwt.entity.PostEntity;
 import com.springboot.jwt.service.PostService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +29,12 @@ public class PostController {
     }
 
     @GetMapping("/show-all-posts")
-    public List<PostEntity> showAllPosts() {
-        return postService.showAllPosts();
+    public ResponseEntity<List<PostEntity>> showAllPosts(@RequestParam(defaultValue = "0") Integer pageNo,
+                                                         @RequestParam(defaultValue = "10") Integer pageSize,
+                                                         @RequestParam(defaultValue = "postId") String sortBy) {
+
+        List<PostEntity> list = postService.showPostsByPage(pageNo, pageSize, sortBy);
+        return new ResponseEntity<>(list, new HttpHeaders(), HttpStatus.OK);
     }
+
 }
