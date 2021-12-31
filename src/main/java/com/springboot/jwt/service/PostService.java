@@ -30,6 +30,8 @@ public class PostService {
         UserEntity userEntity = userRepository.findByUserName(authentication.getName());
         postEntity.setUserEntity(userEntity);
         postEntity.setCreatedDate(LocalDateTime.now());
+        String postBody = postEntity.getPostBody().replaceAll("(\r\n|\n)", "<br />");
+        postEntity.setPostBody(postBody);
         postRepository.save(postEntity);
         log.info("Successfully added the post : {}", postEntity.getPostTitle());
     }
