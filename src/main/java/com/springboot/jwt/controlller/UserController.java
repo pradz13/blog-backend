@@ -15,12 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/auth")
 @Slf4j
 public class UserController {
 
@@ -44,12 +42,6 @@ public class UserController {
         log.info("Saving the new user with user name : " + userEntity.getUserName());
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         return userRepository.save(userEntity);
-    }
-
-    @GetMapping("/restricted-access-rest-endpoint")
-    public String restrictedAccessEndpoint() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return "Welcome to the demo of JWT with Spring Boot!!!! - " + authentication.getName();
     }
 
     @PostMapping("/authenticate")
